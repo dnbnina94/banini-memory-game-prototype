@@ -152,7 +152,9 @@ class MemoryGame extends React.Component {
     decrementDate = () => {
         const date = new Date(this.state.date);
         date.setDate(date.getDate()-1);
-        this.getData(date);
+        if (date >= new Date('2021-02-22')) {
+            this.getData(date);
+        }
     }
 
     clearTimer() {

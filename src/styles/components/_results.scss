@@ -21,6 +21,10 @@
   margin-bottom: -6.5vw;
   align-self: center;
   min-width: 75%;
+
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .results-wrapper-container {

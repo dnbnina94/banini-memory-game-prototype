@@ -246,9 +246,9 @@ class MemoryGame extends React.Component {
             return;
         }
 
-        if (!this.state.gameStarted) {
-            this.startTimer();
-        }
+        // if (!this.state.gameStarted) {
+        //     this.startTimer();
+        // }
 
         this.setState((prevState) => {
             let openedCards = prevState.openedCards.concat(card.image);
@@ -323,6 +323,8 @@ class MemoryGame extends React.Component {
                 gameAudio.play();
             }, 800);
         }
+
+        this.startTimer();
 
         this.setState(() => ({
             cards,

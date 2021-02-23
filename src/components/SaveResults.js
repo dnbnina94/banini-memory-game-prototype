@@ -66,8 +66,8 @@ class SaveResults extends React.Component {
             return;
         }
 
-        if (!validator.isLength(data.brisecka, {min: 5, max: 10})) {
-            this.setState(() => ({ error: "Br. fiskalnog isečka mora sadržati između 5 i 10 cifara." }));
+        if (!validator.isLength(data.brisecka, {min: 4, max: 10})) {
+            this.setState(() => ({ error: "Br. fiskalnog isečka mora sadržati između 4 i 10 cifara." }));
             return;
         }
 

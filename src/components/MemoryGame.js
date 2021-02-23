@@ -261,6 +261,7 @@ class MemoryGame extends React.Component {
             let cards = prevState.cards.map(c => {
                 if (c === card) {
                     c.opened = true;
+                    c.revealed = true;
                 }
                 return c;
             });

@@ -51,7 +51,7 @@ class CustomModal extends React.Component {
                     </ul>
                     U daljem tekstu: “Učesnik”
                     <br/><br/>
-                    Pravo učešća na konkursu imaju sledeća lica:<br/>
+                    Pravo učešća na konkursu nemaju sledeća lica:<br/>
                     <ul className="custom-modal-list">
                         <li>Lica koja su u radnom odnosu ili su na drugi način radno angažovana kod Organizatora kao i
                         njihovi bračni drugovi, roditelji i deca;</li>

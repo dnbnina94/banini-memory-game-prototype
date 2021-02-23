@@ -158,7 +158,6 @@ class MemoryGame extends React.Component {
         endDate.setSeconds(0);
         endDate.setMilliseconds(0);
         if (date.getTime() >= endDate.getTime()) {
-            console.log("ALLOOO")
             this.getData(date);
         }
     }

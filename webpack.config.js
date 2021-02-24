@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+var WebpackObfuscator = require('webpack-obfuscator');
 
 module.exports = (env) => {
 
@@ -23,19 +24,30 @@ module.exports = (env) => {
                     exclude: /node_modules/   
                 }, 
                 {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    enforce: 'post',
+                    use: { 
+                        loader: WebpackObfuscator.loader, 
+                        options: {
+                            rotateStringArray: true
+                        }
+                    }
+                },
+                {
                     test: /\.s?css$/,
                     use: CSSExtract.extract({
                         use: [
                             {
                                 loader: "css-loader",
                                 options: {
-                                    sourceMap: true
+                                    sourceMap: false
                                 }
                             },
                             {
                                 loader: "sass-loader",
                                 options: {
-                                    sourceMap: true
+                                    sourceMap: false
                                 }
                             }
                         ]
@@ -57,7 +69,6 @@ module.exports = (env) => {
                 'process.env.BACKEND_API_URL': JSON.stringify(process.env.BACKEND_API_URL),
             })
         ],
-        devtool: isProduction ? 'source-map' : 'inline-source-map',
         devServer: {
             contentBase: path.join(__dirname, "public"),
             historyApiFallback: true

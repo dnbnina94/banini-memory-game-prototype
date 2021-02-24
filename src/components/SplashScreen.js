@@ -103,8 +103,8 @@ const SplashScreen = (props) => {
                                         bar jedan trik proizvod iz bilo kojeg idea<br/>
                                         ili roda maloprodajnog objekta,<br/>
                                         kao i da sačuvate račun radi provere.<br/>
-                                        Broj isečka je petocifren ili šestocifren broj<br/>
-                                        iza slova bi, a fiskalni isečak pokazuje se na uvid<br/>
+                                        Broj isečka je broj iza slova bi,<br/>
+                                        a fiskalni isečak pokazuje se na uvid<br/>
                                         prilikom uručivanja nagrade.
                                     </p>
                                 </div>
@@ -126,8 +126,8 @@ const SplashScreen = (props) => {
                         bar jedan trik proizvod iz bilo kojeg idea<br/>
                         ili roda maloprodajnog objekta,<br/>
                         kao i da sačuvate račun radi provere.<br/>
-                        Broj isečka je petocifren ili šestocifren broj<br/>
-                        iza slova bi, a fiskalni isečak pokazuje se na uvid<br/>
+                        Broj isečka je broj iza slova bi,<br/>
+                        a fiskalni isečak pokazuje se na uvid<br/>
                         prilikom uručivanja nagrade.
                     </p>
                     <img className="racun-info-img" src={racunPaketici} alt="račun i paketići" />

@@ -22,7 +22,7 @@ class Cards extends React.Component {
                         >
                             <div className="cards--front">
                             </div>
-                            <div className="cards--back" style={{backgroundImage: `url(${c.revealed ? c.image : ''})`}}>
+                            <div className={`cards--back`} style={{backgroundImage: `url(${(c.opened || c.revealed) ? c.image : ''})`}}>
                             </div>
                         </div>
                     </div>             

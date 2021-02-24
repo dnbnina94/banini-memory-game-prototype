@@ -67,7 +67,7 @@ class CustomModal extends React.Component {
                     Da bi lice steklo pravo da učestvuje na Konkursu u bilo kom segmentu potrebno je da kupi bilo koji
                     Trik proizvod u Idea ili Roda objektu (u daljem tekstu: Trik), i da sačuva račun sa brojem isečka koji se
                     nalazi na dnu fiskalnog računa i na kome je bilo koji od navedenih trik proizvoda. Broj isečka je
-                    petocifreni ili šestocifreni broj iza slova „БИ“ (u daljem tekstu „Kod“).
+                    broj iza slova „БИ“ (u daljem tekstu „Kod“).
                     <br/><br/>
                     Nakon kupovine Trika potrebno je da Učesnik preduzme sledeće korake:<br/>
                     Zaprati Trik Viber Community  (u daljem tekstu: Javni nalog), koji može pronaći pretragom na Viberu

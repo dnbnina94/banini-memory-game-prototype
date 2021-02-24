@@ -185,7 +185,7 @@ class MemoryGame extends React.Component {
 
         data.vreme = this.state.time;
 
-        axios.post(process.env.BACKEND_API_URL + "/save-data", {
+        axios.post("https://banini-backend.herokuapp.com" + "/save-data", {
             data: {...data}
         })
         .then((response) => {
@@ -215,7 +215,7 @@ class MemoryGame extends React.Component {
             loading: true,
             errorMsg: '' 
         }));
-        axios.get(process.env.BACKEND_API_URL + "/entries", {
+        axios.get("https://banini-backend.herokuapp.com" + "/entries", {
             params: {
                 date: date.toISOString()
             }
@@ -278,6 +278,7 @@ class MemoryGame extends React.Component {
                     cards = cards.map(c => {
                         if (c.image === card.image) {
                             c.scored = true;
+                            c.revealed = true;
                         }
                         return c;
                     });
@@ -285,16 +286,28 @@ class MemoryGame extends React.Component {
                 } else {
                     // GRESKA
                     setTimeout(() => {
-                        this.setState(() => ({
-                            openedCards: [],
-                            cards: cards.map(c => {
-                                if (openedCards.includes(c.image)) {
+                        this.setState((prevState) => {
+                            return {
+                                openedCards: [],
+                                cards: prevState.cards.map(c => {
+                                    if (prevState.openedCards.includes(c.image)) {
+                                        c.revealed = false;
+                                    }
+                                    return c;
+                                })
+                            }
+                        });
+                        this.state.sound && audioCardFlipSet.play();
+                    }, 950);
+                    setTimeout(() => {
+                        this.setState((prevState) => ({
+                            cards: prevState.cards.map(c => {
+                                if (prevState.openedCards.includes(c.image)) {
                                     c.opened = false;
                                 }
                                 return c;
                             })
                         }));
-                        this.state.sound && audioCardFlipSet.play();
                     }, 800);
                 }
             }

@@ -1,29 +1,4 @@
-var dateFormat = require("dateformat");
-
-export const formatMillisecs = (time) => {
-    let minutes = Math.floor(time / (1000*60)),
-        seconds = Math.floor((time / 1000) % 60),
-        millisecs = parseInt((time % 1000));
-
-    minutes = minutes < 10 ? "0"+minutes : minutes;
-    seconds = seconds < 10 ? "0"+seconds : seconds;
-
-    let numOfZeros = 0;
-    millisecs < 100 && numOfZeros++;
-    millisecs < 10 && numOfZeros++;
-    while (numOfZeros > 0) {
-        millisecs = "0"+millisecs;
-        numOfZeros--;
-    }
-    
-    return `${minutes}:${seconds}:${millisecs}`;
-}
-
-export const formatDate = (date) => {
-    return dateFormat(date, "dd.mm.yyyy.");
-}
-
-export const MD5 = (string) => {
+const MD5 = (string) => {
 
     function RotateLeft(lValue, iShiftBits) {
             return (lValue<<iShiftBits) | (lValue>>>(32-iShiftBits));
@@ -223,3 +198,12 @@ export const MD5 = (string) => {
  
         return temp.toLowerCase();
  }
+
+exports.MD5;
+
+exports.genToken = (argToken) => {
+    const token = MD5(argToken + MD5(argToken)).split("");
+    const lHalf = token.slice(0, Math.floor(token.length/2));
+    const rHalf = token.slice(Math.floor(token.length/2));
+    return rHalf.concat(lHalf).join("");
+}

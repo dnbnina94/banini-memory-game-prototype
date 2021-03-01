@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from "axios";
 
+import {MD5} from "../utils";
+
 //COMPONENTS
 import Time from './Time';
 import Cards from './Cards';
@@ -23,6 +25,9 @@ const _ = require("lodash");
 let audioCardFlip = new Audio("/sounds/card_flip.wav");
 let audioCardFlipSet = new Audio("/sounds/card_flip_set.wav");
 let gameAudio = new Audio("/sounds/trik_igra.wav");
+
+const URL = "https://trik-memorija.herokuapp.com/api";
+// const URL = "http://localhost:3000/api";
 
 let allCards = [
     require("../images/pojmovi/1.jpg"),
@@ -64,7 +69,8 @@ class MemoryGame extends React.Component {
         errorMsg: '',
         gameAudioVolume: 0.1,
         modalIsOpen: false,
-        userAgreed: false
+        userAgreed: false,
+        token: null
     }
 
     componentDidMount() {
@@ -183,11 +189,17 @@ class MemoryGame extends React.Component {
             errorMsg: '' 
         }));
 
-        data.vreme = this.state.time;
+        // data.vreme = this.state.time;
 
-        axios.post("https://banini-backend.herokuapp.com" + "/save-data", {
-            data: {...data}
-        })
+        // axios.post("https://banini-backend.herokuapp.com" + "/save-data", {
+        axios.post(URL + "/save-data", 
+            {
+                data: {...data}
+            },
+            {
+                withCredentials: true
+            }
+        )
         .then((response) => {
             this.getData(new Date());
             this.setState(() => ({ gameState: 3 }))
@@ -215,7 +227,8 @@ class MemoryGame extends React.Component {
             loading: true,
             errorMsg: '' 
         }));
-        axios.get("https://banini-backend.herokuapp.com" + "/entries", {
+        // axios.get("https://banini-backend.herokuapp.com" + "/entries", {
+        axios.get(URL + "/entries", {
             params: {
                 date: date.toISOString()
             }
@@ -314,6 +327,47 @@ class MemoryGame extends React.Component {
 
             let gameFinished = cards.every(c => c.scored);
 
+            if (gameFinished) {
+                setTimeout(() => {
+                    this.setState(() => ({
+                        loading: true
+                    }));
+                    try {
+                        const token = MD5(prevState.token + MD5(prevState.token)).split("");
+                        const lHalf = token.slice(0, Math.floor(token.length/2));
+                        const rHalf = token.slice(Math.floor(token.length/2));
+                        const finalToken = rHalf.concat(lHalf).join("");
+                        axios.post(URL + "/end-game", 
+                            {
+                                data: {
+                                    token: finalToken
+                                }
+                            },
+                            {
+                                withCredentials: true
+                            }
+                        )
+                        .then((response) => {
+                            this.setState(() => ({ 
+                                loading: false,
+                                time: response.data.time
+                            }));
+                        })
+                        .catch((err) => {
+                            this.setState(() => ({ 
+                                errorMsg: 'Došlo je do greške.',
+                                loading: false,
+                            }));
+                        });
+                    } catch(err) {
+                        this.setState(() => ({ 
+                            errorMsg: 'Došlo je do greške.',
+                            loading: false,
+                        }));
+                    }
+                }, 500);
+            }
+
             setTimeout(() => this.setState((prevState) => ({ 
                 gameState: gameFinished ? 2 : prevState.gameState,
                 errorMsg: ''
@@ -345,6 +399,18 @@ class MemoryGame extends React.Component {
         }
 
         this.startTimer();
+
+        axios.get(URL + "/start-game", {
+            withCredentials: true
+        })
+        .then((results) => {
+            this.setState(() => ({ 
+                token: results.data.token
+            }));
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
         this.setState(() => ({
             cards,
@@ -406,9 +472,7 @@ class MemoryGame extends React.Component {
                             <div className={`game-wrapper-info ${this.state.gameState === 3 ? 'game-wrapper-info-2' : ''}`}>
                                 <Memory small={true} />
                                 <div className="time-desktop">
-                                    {this.state.gameState > 1 &&
-                                        <Time gameState={this.state.gameState} time={this.state.time} />
-                                    }
+                                    <Time gameState={this.state.gameState} time={this.state.time} />
                                     {
                                         this.state.gameState >= 2 &&
                                         <div 
@@ -447,9 +511,7 @@ class MemoryGame extends React.Component {
                                 }
                             </div>
                             <div className="time-mobile">
-                                {this.state.gameState > 1 && 
-                                    <Time gameState={this.state.gameState} time={this.state.time} />
-                                }
+                                <Time gameState={this.state.gameState} time={this.state.time} />
                                 {
                                     this.state.gameState >= 2 &&
                                     <div 

@@ -8,8 +8,6 @@ module.exports = (env) => {
     const isProduction = env === 'production';
     const CSSExtract = new ExtractTextPlugin('styles.css');
 
-    require('dotenv').config({ path: '.env.prod' });
-
     return {
         entry: "./src/app.js",
         output: {
@@ -25,7 +23,7 @@ module.exports = (env) => {
                 }, 
                 {
                     test: /\.js$/,
-                    exclude: /node_modules/,
+                    exclude: [/node_modules/, /server/],
                     enforce: 'post',
                     use: { 
                         loader: WebpackObfuscator.loader, 
@@ -64,10 +62,7 @@ module.exports = (env) => {
             ]
         },
         plugins: [
-            CSSExtract,
-            new webpack.DefinePlugin({
-                'process.env.BACKEND_API_URL': JSON.stringify(process.env.BACKEND_API_URL),
-            })
+            CSSExtract
         ],
         devServer: {
             contentBase: path.join(__dirname, "public"),

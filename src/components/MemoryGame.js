@@ -406,7 +406,9 @@ class MemoryGame extends React.Component {
                             <div className={`game-wrapper-info ${this.state.gameState === 3 ? 'game-wrapper-info-2' : ''}`}>
                                 <Memory small={true} />
                                 <div className="time-desktop">
-                                    <Time gameState={this.state.gameState} time={this.state.time} />
+                                    {this.state.gameState > 1 &&
+                                        <Time gameState={this.state.gameState} time={this.state.time} />
+                                    }
                                     {
                                         this.state.gameState >= 2 &&
                                         <div 
@@ -445,7 +447,9 @@ class MemoryGame extends React.Component {
                                 }
                             </div>
                             <div className="time-mobile">
-                                <Time gameState={this.state.gameState} time={this.state.time} />
+                                {this.state.gameState > 1 && 
+                                    <Time gameState={this.state.gameState} time={this.state.time} />
+                                }
                                 {
                                     this.state.gameState >= 2 &&
                                     <div 

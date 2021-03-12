@@ -128,12 +128,21 @@
   }
 }
 
+.custom-modal-info {
+  text-align: center;
+  font-size: 3vw;
+}
+
 @media (min-width: $desktop-breakpoint) {
   .ReactModal__Content {
     padding: 2vw 2vw 0vw 2vw !important;
     inset: 2vw 25vw !important;
     border-radius: 1vw !important;
     font-size: 1vw;
+  }
+
+  .custom-modal-info {
+    font-size: 1.3vw;
   }
 
   .custom-input {

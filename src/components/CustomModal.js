@@ -31,6 +31,8 @@ class CustomModal extends React.Component {
                         „TRIK GAMING AKTIVACIJA“
                     </div>
                     <br/>
+                    <div className="custom-modal-info">Pravilnik je izmenjen u Tačkama 5 i 6 dana 12.3.2021.</div>
+                    <br/>
                     Konkurs se sprovodi u svrhu promocije Organizatora. Konkurs traje od 22.02.2021. godine do
                     15.03.2021. godine, a odnosi se na područje Republike Srbije, bez Kosova i Metohije.
                     Pravila Konkursa i ostale bliže informacije vezane za sprovođenje Konkursa biće objavljene na web

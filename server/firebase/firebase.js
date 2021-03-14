@@ -18,6 +18,7 @@ const TELEFON_EMPTY_ERROR_MSG = "Mobilni telefon ne sme ostati prazan.";
 const TELEFON_ERROR_MSG = "Mobilni telefon nije u ispravnom formatu.";
 const BR_ISECKA_EMPTY_ERROR_MSG = "Br. fiskalnog isečka mora sadržati između 4 i 10 cifara.";
 const BR_ISECKA_INVALID_ERROR_MSG = "Br. fiskalnog isečka sme sadržati samo brojeve.";
+const FINISHED_MSG = "Nagradni konkurs je završen.";
 
 const TIME_LIMIT = 30000;
 
@@ -101,112 +102,247 @@ exports.getData = (req, res) => {
 };
 
 exports.saveData = (req, res) => {
+    // try {
+
+    //     if (req.body.data.ime === undefined || !validator.isLength(req.body.data.ime+'', {min: 1})) {
+    //         const error = new Error(IME_EMPTY_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     if (
+    //         !validator.isAlpha(req.body.data.ime+'') &&
+    //         !validator.isAlpha(req.body.data.ime+'', 'sr-RS') &&
+    //         !validator.isAlpha(req.body.data.ime+'', 'sr-RS@latin')
+    //     ) {
+    //         const error = new Error(IME_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     if (req.body.data.prezime === undefined || !validator.isLength(req.body.data.prezime+'', {min: 1})) {
+    //         const error = new Error(PREZIME_EMPTY_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     if (
+    //         !validator.isAlpha(req.body.data.prezime+'') &&
+    //         !validator.isAlpha(req.body.data.prezime+'', 'sr-RS') &&
+    //         !validator.isAlpha(req.body.data.prezime+'', 'sr-RS@latin')
+    //     ) {
+    //         const error = new Error(PREZIME_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     if (req.body.data.email === undefined || !validator.isLength(req.body.data.email, {min: 1})) {
+    //         const error = new Error(EMAIL_EMPTY_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     if (!validator.isEmail(req.body.data.email)) {
+    //         const error = new Error(EMAIL_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     if (req.body.data.telefon === undefined || !validator.isLength(req.body.data.telefon, {min: 1})) {
+    //         const error = new Error(TELEFON_EMPTY_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     if (!validator.isMobilePhone(req.body.data.telefon, 'sr-RS')) {
+    //         const error = new Error(TELEFON_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     if (req.body.data.brisecka === undefined || !validator.isLength(req.body.data.brisecka, {min: 4, max: 10})) {
+    //         const error = new Error(BR_ISECKA_EMPTY_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     if (!validator.isNumeric(req.body.data.brisecka)) {
+    //         const error = new Error(BR_ISECKA_INVALID_ERROR_MSG);
+    //         error.code = "400";
+    //         throw error;
+    //     }
+
+    //     // if (req.body.data.vreme === undefined || !validator.isNumeric(req.body.data.vreme+'') || +req.body.data.vreme <= 8000) {
+    //     //     throw new Error();
+    //     // } 
+
+    //     if (req.session.time === undefined || !validator.isNumeric(req.session.time+'') || +req.session.time <= 8000) {
+    //         throw new Error();
+    //     } 
+
+    //     database.collection('entries')
+    //     .where('brisecka', "==", req.body.data.brisecka)
+    //     .where('validan', '==', true)
+    //     .where('email', '==', req.body.data.email)
+    //     .get()
+    //     .then((snapshot, reject) => {
+    //         let briseckaExists = false;
+    //         snapshot.forEach(snapshotChild => {
+    //             briseckaExists = true;
+    //         });
+
+    //         if (briseckaExists) {
+    //             const error = new Error(BR_ISECKA_ERROR_MSG);
+    //             error.code = "400";
+    //             throw error;
+    //         } else {
+    //             const ip = req.headers['x-forwarded-for'] || 
+    //             req.connection.remoteAddress || 
+    //             req.socket.remoteAddress ||
+    //             (req.connection.socket ? req.connection.socket.remoteAddress : null);
+
+    //             req.body.data.ipaddress = ip;
+
+    //             return database.collection('entries')
+    //             .where('ipaddress', '==', ip)
+    //             .get();
+    //         }
+    //     })
+    //     .then(snapshot => {
+    //         const results = [];
+
+    //         snapshot.forEach(snapshotChild => {
+    //             results.push({
+    //                 ...snapshotChild.data()
+    //             })
+    //         });
+
+    //         results.sort((a,b) => b.datum.seconds - a.datum.seconds);
+
+    //         const dateNow = Date.now();
+
+    //         // console.log("VREME SAD", dateNow);
+    //         // console.log("VREME FIREBASE", results[0].datum.seconds*1000);
+    //         // console.log(dateNow - results[0].datum.seconds*1000);
+
+    //         const tooSoon = results.length > 0 && ((dateNow - results[0].datum.seconds*1000) < TIME_LIMIT);
+
+    //         if (tooSoon) {
+    //             const error = new Error(TOO_MANY_REQUESTS);
+    //             error.code = "429";
+    //             throw error;
+    //         } else {
+    //             req.body.data.datum = firebase.firestore.FieldValue.serverTimestamp();
+    //             req.body.data.vreme = req.session.time;
+    //             req.body.data.validan = true;
+    //             return database.collection('entries').doc(uuidv4()).set({...req.body.data})
+    //         }
+    //     })
+    //     .then(snapshot => {
+    //         req.session.destroy();
+    //         res.status(200).send('OK');
+
+    //     })
+    //     .catch(err => {
+    //         const errorCode = err.code ? err.code : 400;
+    //         const errorMsg = err.code ? err.message : DEFAULT_ERROR_MSG; 
+    //         res.status(errorCode).send({
+    //             message: errorMsg
+    //         });
+    //     });
+
+    //     // const ip = req.headers['x-forwarded-for'] || 
+    //     // req.connection.remoteAddress || 
+    //     // req.socket.remoteAddress ||
+    //     // (req.connection.socket ? req.connection.socket.remoteAddress : null);
+
+    //     // req.body.data.ipaddress = ip;
+    //     // req.body.data.datum = firebase.firestore.FieldValue.serverTimestamp();
+    //     // database.collection('entries').doc(uuidv4()).set({...req.body.data})
+    //     // .then((result) => {
+    //     //     res.send("Uspelo!");
+    //     // })
+    //     // .catch(err => {
+    //     //     res.status(400).send({
+    //     //         message: "Doslo je do greske"
+    //     //     });
+    //     // });
+    // } catch(err) {
+    //     // console.log(err);
+    //     // console.log(req.session.time);
+    //     const errorCode = err.code ? err.code : 400;
+    //     const errorMsg = err.code ? err.message : DEFAULT_ERROR_MSG; 
+    //     res.status(errorCode).send({
+    //         message: errorMsg
+    //     });
+    // }
+
+    res.status(400).send({
+        message: FINISHED_MSG
+    });
+}
+
+exports.startGame = (req, res) => {
+    // try {
+    //     req.session.timestampStart = new Date().getTime();
+    //     req.session.token = uuidv4();
+
+    //     res.send({
+    //         token: req.session.token
+    //     });
+    // } catch(err) {
+    //     console.log(err);
+    //     res.status(400).send({
+    //         message: DEFAULT_ERROR_MSG
+    //     })
+    // }
+
+    res.status(400).send({
+        message: FINISHED_MSG
+    });
+}
+
+exports.endGame = (req, res) => {
+    // try {
+    //     if (!req.session.timestampStart || 
+    //         !req.body.data.token || 
+    //         !req.session.token ||
+    //         req.body.data.token !== utils.genToken(req.session.token)) {
+    //         req.session.destroy();
+    //         throw new Error();
+    //     }
+    //     const timestampEnd = new Date().getTime();
+    //     const timestampStart = req.session.timestampStart;
+    //     req.session.time = timestampEnd-timestampStart;
+    //     res.send({
+    //         time: req.session.time
+    //     });
+    // } catch(err) {
+    //     console.log(err);
+    //     res.status(400).send({
+    //         message: DEFAULT_ERROR_MSG
+    //     });
+    // }
+
+    res.status(400).send({
+        message: FINISHED_MSG
+    });
+}
+
+exports.numOfEntries = (req, res) => {
     try {
+        let minDate = new Date('2021-02-22');
+        minDate.setHours(0);
+        minDate.setMinutes(0);
+        minDate.setSeconds(0);
+        minDate.setMilliseconds(0);
 
-        if (req.body.data.ime === undefined || !validator.isLength(req.body.data.ime+'', {min: 1})) {
-            const error = new Error(IME_EMPTY_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        if (
-            !validator.isAlpha(req.body.data.ime+'') &&
-            !validator.isAlpha(req.body.data.ime+'', 'sr-RS') &&
-            !validator.isAlpha(req.body.data.ime+'', 'sr-RS@latin')
-        ) {
-            const error = new Error(IME_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        if (req.body.data.prezime === undefined || !validator.isLength(req.body.data.prezime+'', {min: 1})) {
-            const error = new Error(PREZIME_EMPTY_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        if (
-            !validator.isAlpha(req.body.data.prezime+'') &&
-            !validator.isAlpha(req.body.data.prezime+'', 'sr-RS') &&
-            !validator.isAlpha(req.body.data.prezime+'', 'sr-RS@latin')
-        ) {
-            const error = new Error(PREZIME_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        if (req.body.data.email === undefined || !validator.isLength(req.body.data.email, {min: 1})) {
-            const error = new Error(EMAIL_EMPTY_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        if (!validator.isEmail(req.body.data.email)) {
-            const error = new Error(EMAIL_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        if (req.body.data.telefon === undefined || !validator.isLength(req.body.data.telefon, {min: 1})) {
-            const error = new Error(TELEFON_EMPTY_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        if (!validator.isMobilePhone(req.body.data.telefon, 'sr-RS')) {
-            const error = new Error(TELEFON_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        if (req.body.data.brisecka === undefined || !validator.isLength(req.body.data.brisecka, {min: 4, max: 10})) {
-            const error = new Error(BR_ISECKA_EMPTY_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        if (!validator.isNumeric(req.body.data.brisecka)) {
-            const error = new Error(BR_ISECKA_INVALID_ERROR_MSG);
-            error.code = "400";
-            throw error;
-        }
-
-        // if (req.body.data.vreme === undefined || !validator.isNumeric(req.body.data.vreme+'') || +req.body.data.vreme <= 8000) {
-        //     throw new Error();
-        // } 
-
-        if (req.session.time === undefined || !validator.isNumeric(req.session.time+'') || +req.session.time <= 8000) {
-            throw new Error();
-        } 
+        minDate = firebase.firestore.Timestamp.fromDate(minDate);
 
         database.collection('entries')
-        .where('brisecka', "==", req.body.data.brisecka)
-        .where('validan', '==', true)
-        .where('email', '==', req.body.data.email)
+        .orderBy('datum')
+        .where('datum', '>=', minDate)
         .get()
-        .then((snapshot, reject) => {
-            let briseckaExists = false;
-            snapshot.forEach(snapshotChild => {
-                briseckaExists = true;
-            });
-
-            if (briseckaExists) {
-                const error = new Error(BR_ISECKA_ERROR_MSG);
-                error.code = "400";
-                throw error;
-            } else {
-                const ip = req.headers['x-forwarded-for'] || 
-                req.connection.remoteAddress || 
-                req.socket.remoteAddress ||
-                (req.connection.socket ? req.connection.socket.remoteAddress : null);
-
-                req.body.data.ipaddress = ip;
-
-                return database.collection('entries')
-                .where('ipaddress', '==', ip)
-                .get();
-            }
-        })
         .then(snapshot => {
             const results = [];
 
@@ -216,102 +352,30 @@ exports.saveData = (req, res) => {
                 })
             });
 
-            results.sort((a,b) => b.datum.seconds - a.datum.seconds);
+            res.send(results.map(data => {
+                return {
+                    "Datum": data.datum.toDate(),
+                    "Ime": data.ime,
+                    "Prezime": data.prezime,
+                    "Ip Adresa": data.ipaddress,
+                    "Email": data.email,
+                    "Telefon": data.telefon,
+                    "Broj Isečka": data.brisecka,
+                    "Vreme": utils.formatMillisecs(data.vreme),
+                    "Validan": data.validan ? "Da" : "Ne"
+                }
+            }));
 
-            const dateNow = Date.now();
-
-            // console.log("VREME SAD", dateNow);
-            // console.log("VREME FIREBASE", results[0].datum.seconds*1000);
-            // console.log(dateNow - results[0].datum.seconds*1000);
-
-            const tooSoon = results.length > 0 && ((dateNow - results[0].datum.seconds*1000) < TIME_LIMIT);
-
-            if (tooSoon) {
-                const error = new Error(TOO_MANY_REQUESTS);
-                error.code = "429";
-                throw error;
-            } else {
-                req.body.data.datum = firebase.firestore.FieldValue.serverTimestamp();
-                req.body.data.vreme = req.session.time;
-                req.body.data.validan = true;
-                return database.collection('entries').doc(uuidv4()).set({...req.body.data})
-            }
-        })
-        .then(snapshot => {
-            req.session.destroy();
-            res.status(200).send('OK');
-
-        })
-        .catch(err => {
-            const errorCode = err.code ? err.code : 400;
-            const errorMsg = err.code ? err.message : DEFAULT_ERROR_MSG; 
-            res.status(errorCode).send({
-                message: errorMsg
+        }).catch(err => {
+            console.log(err);
+            res.status(400).send({
+                message: DEFAULT_ERROR_MSG
             });
         });
-
-        // const ip = req.headers['x-forwarded-for'] || 
-        // req.connection.remoteAddress || 
-        // req.socket.remoteAddress ||
-        // (req.connection.socket ? req.connection.socket.remoteAddress : null);
-
-        // req.body.data.ipaddress = ip;
-        // req.body.data.datum = firebase.firestore.FieldValue.serverTimestamp();
-        // database.collection('entries').doc(uuidv4()).set({...req.body.data})
-        // .then((result) => {
-        //     res.send("Uspelo!");
-        // })
-        // .catch(err => {
-        //     res.status(400).send({
-        //         message: "Doslo je do greske"
-        //     });
-        // });
-    } catch(err) {
-        // console.log(err);
-        // console.log(req.session.time);
-        const errorCode = err.code ? err.code : 400;
-        const errorMsg = err.code ? err.message : DEFAULT_ERROR_MSG; 
-        res.status(errorCode).send({
-            message: errorMsg
-        });
-    }
-}
-
-exports.startGame = (req, res) => {
-    try {
-        req.session.timestampStart = new Date().getTime();
-        req.session.token = uuidv4();
-
-        res.send({
-            token: req.session.token
-        });
     } catch(err) {
         console.log(err);
         res.status(400).send({
             message: DEFAULT_ERROR_MSG
         })
-    }
-}
-
-exports.endGame = (req, res) => {
-    try {
-        if (!req.session.timestampStart || 
-            !req.body.data.token || 
-            !req.session.token ||
-            req.body.data.token !== utils.genToken(req.session.token)) {
-            req.session.destroy();
-            throw new Error();
-        }
-        const timestampEnd = new Date().getTime();
-        const timestampStart = req.session.timestampStart;
-        req.session.time = timestampEnd-timestampStart;
-        res.send({
-            time: req.session.time
-        });
-    } catch(err) {
-        console.log(err);
-        res.status(400).send({
-            message: DEFAULT_ERROR_MSG
-        });
     }
 }

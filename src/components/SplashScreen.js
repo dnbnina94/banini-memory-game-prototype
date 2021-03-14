@@ -112,11 +112,13 @@ const SplashScreen = (props) => {
                         </SwiperSlide>
                     </Swiper>
                 </div>
-                <div className="splash-screen-play-btn-wrapper" onClick={props.startGame}>
-                    <img className="splash-screen-smiley-img-1" src={smileyPlez} alt="smiley plez" />
-                    <img className="splash-screen-play-btn" src={igraj} alt="igraj" />
-                    <img className="splash-screen-smiley-img-2" src={smileyParty} alt="smiley party" />
-                </div>
+                {/*
+                    <div className="splash-screen-play-btn-wrapper" onClick={props.startGame}>
+                        <img className="splash-screen-smiley-img-1" src={smileyPlez} alt="smiley plez" />
+                        <img className="splash-screen-play-btn" src={igraj} alt="igraj" />
+                        <img className="splash-screen-smiley-img-2" src={smileyParty} alt="smiley party" />
+                    </div>
+                */}
             </div>
             <div className="racun-wrapper">
                 <div className="racun-info-wrapper">

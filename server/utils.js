@@ -207,3 +207,22 @@ exports.genToken = (argToken) => {
     const rHalf = token.slice(Math.floor(token.length/2));
     return rHalf.concat(lHalf).join("");
 }
+
+exports.formatMillisecs = (time) => {
+        let minutes = Math.floor(time / (1000*60)),
+        seconds = Math.floor((time / 1000) % 60),
+        millisecs = parseInt((time % 1000));
+
+        minutes = minutes < 10 ? "0"+minutes : minutes;
+        seconds = seconds < 10 ? "0"+seconds : seconds;
+
+        let numOfZeros = 0;
+        millisecs < 100 && numOfZeros++;
+        millisecs < 10 && numOfZeros++;
+        while (numOfZeros > 0) {
+        millisecs = "0"+millisecs;
+        numOfZeros--;
+        }
+
+        return `${minutes}:${seconds}:${millisecs}`;
+}

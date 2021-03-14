@@ -69,7 +69,7 @@ class MemoryGame extends React.Component {
         errorMsg: '',
         gameAudioVolume: 0.1,
         modalIsOpen: false,
-        userAgreed: false,
+        userAgreed: true,
         token: null
     }
 
@@ -150,7 +150,18 @@ class MemoryGame extends React.Component {
     incrementDate = () => {
         const date = new Date(this.state.date);
         date.setDate(date.getDate() + 1);
-        if (new Date() >= date) {
+
+        const lastDate = new Date('2021-03-14');
+        lastDate.setHours(23);
+        lastDate.setMinutes(59);
+        lastDate.setSeconds(59);
+        lastDate.setMilliseconds(999);
+
+        // if (new Date() >= date) {
+        //     this.getData(date);
+        // }
+
+        if (date < lastDate) {
             this.getData(date);
         }
     }
@@ -177,7 +188,7 @@ class MemoryGame extends React.Component {
     }
 
     showResults = () => {
-        this.getData(new Date());
+        this.getData(new Date('2021-03-14'));
         this.setState(() => ({ 
             gameState: -1
         }));
@@ -440,7 +451,9 @@ class MemoryGame extends React.Component {
     render() {
         return (
             <div className="app-wrapper">
-                    <CustomModal modalIsOpen={this.state.modalIsOpen && !this.state.userAgreed} agreeToTerms={this.agreeToTerms}/>
+                    {/*
+                        <CustomModal modalIsOpen={this.state.modalIsOpen && !this.state.userAgreed} agreeToTerms={this.agreeToTerms}/>
+                    */}
                     {
                         this.state.loading &&
                         <Loader />

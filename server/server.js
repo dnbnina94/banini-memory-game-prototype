@@ -46,6 +46,7 @@ app.use(session({
 // parse requests of content-type: application/json
 app.use(bodyParser.json());
 
+app.get("/api/num-of-entries", firebase.numOfEntries);
 app.get("/api/entries", firebase.getData);
 app.post("/api/save-data", firebase.saveData);
 app.get("/api/start-game", firebase.startGame);

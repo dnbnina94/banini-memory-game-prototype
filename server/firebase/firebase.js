@@ -330,58 +330,58 @@ exports.endGame = (req, res) => {
 }
 
 exports.numOfEntries = (req, res) => {
-    try {
-        let minDate = new Date('2021-02-22');
-        minDate.setHours(0);
-        minDate.setMinutes(0);
-        minDate.setSeconds(0);
-        minDate.setMilliseconds(0);
+    // try {
+    //     let minDate = new Date('2021-02-22');
+    //     minDate.setHours(0);
+    //     minDate.setMinutes(0);
+    //     minDate.setSeconds(0);
+    //     minDate.setMilliseconds(0);
 
-        minDate = firebase.firestore.Timestamp.fromDate(minDate);
+    //     minDate = firebase.firestore.Timestamp.fromDate(minDate);
 
-        database.collection('entries')
-        .orderBy('datum')
-        .where('datum', '>=', minDate)
-        .get()
-        .then(snapshot => {
-            const results = [];
+    //     database.collection('entries')
+    //     .orderBy('datum')
+    //     .where('datum', '>=', minDate)
+    //     .get()
+    //     .then(snapshot => {
+    //         const results = [];
 
-            snapshot.forEach(snapshotChild => {
-                results.push({
-                    ...snapshotChild.data()
-                })
-            });
+    //         snapshot.forEach(snapshotChild => {
+    //             results.push({
+    //                 ...snapshotChild.data()
+    //             })
+    //         });
 
-            // res.send(results.map(data => {
-            //     return {
-            //         "Datum": data.datum.toDate(),
-            //         "Ime": data.ime,
-            //         "Prezime": data.prezime,
-            //         "Ip Adresa": data.ipaddress,
-            //         "Email": data.email,
-            //         "Telefon": data.telefon,
-            //         "Broj Isečka": data.brisecka,
-            //         "Vreme": utils.formatMillisecs(data.vreme),
-            //         "Validan": data.validan ? "Da" : "Ne"
-            //     }
-            // }));
+    //         // res.send(results.map(data => {
+    //         //     return {
+    //         //         "Datum": data.datum.toDate(),
+    //         //         "Ime": data.ime,
+    //         //         "Prezime": data.prezime,
+    //         //         "Ip Adresa": data.ipaddress,
+    //         //         "Email": data.email,
+    //         //         "Telefon": data.telefon,
+    //         //         "Broj Isečka": data.brisecka,
+    //         //         "Vreme": utils.formatMillisecs(data.vreme),
+    //         //         "Validan": data.validan ? "Da" : "Ne"
+    //         //     }
+    //         // }));
 
-            res.send("BROJ UCESNIKA " + results.length)
+    //         res.send("BROJ UCESNIKA " + results.length)
 
-        }).catch(err => {
-            console.log(err);
-            res.status(400).send({
-                message: DEFAULT_ERROR_MSG
-            });
-        });
-    } catch(err) {
-        console.log(err);
-        res.status(400).send({
-            message: DEFAULT_ERROR_MSG
-        })
-    }
+    //     }).catch(err => {
+    //         console.log(err);
+    //         res.status(400).send({
+    //             message: DEFAULT_ERROR_MSG
+    //         });
+    //     });
+    // } catch(err) {
+    //     console.log(err);
+    //     res.status(400).send({
+    //         message: DEFAULT_ERROR_MSG
+    //     })
+    // }
 
-    // res.status(400).send({
-    //     message: FINISHED_MSG
-    // });
+    res.status(400).send({
+        message: FINISHED_MSG
+    });
 }

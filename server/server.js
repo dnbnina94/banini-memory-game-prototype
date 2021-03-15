@@ -51,6 +51,7 @@ app.get("/api/entries", firebase.getData);
 app.post("/api/save-data", firebase.saveData);
 app.get("/api/start-game", firebase.startGame);
 app.post("/api/end-game", firebase.endGame);
+app.get("/api/first-ten", firebase.firstTen);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));

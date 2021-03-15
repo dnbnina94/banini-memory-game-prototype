@@ -26,8 +26,8 @@ let audioCardFlip = new Audio("/sounds/card_flip.wav");
 let audioCardFlipSet = new Audio("/sounds/card_flip_set.wav");
 let gameAudio = new Audio("/sounds/trik_igra.wav");
 
-const URL = "https://trik-memorija.herokuapp.com/api";
-// const URL = "http://localhost:3000/api";
+// const URL = "https://trik-memorija.herokuapp.com/api";
+const URL = "http://localhost:3000/api";
 
 let allCards = [
     require("../images/pojmovi/1.jpg"),

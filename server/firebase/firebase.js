@@ -2,7 +2,7 @@ const firebase = require('firebase');
 const { v4: uuidv4 } = require('uuid');
 const utils = require("../utils.js");
 const validator = require('validator');
-const response = require("../response.json");
+// const response = require("../response.json");
 
 require('dotenv').config({ path: '.env' });
 
@@ -390,49 +390,53 @@ exports.numOfEntries = (req, res) => {
 }
 
 exports.firstTen = (req,res) => {
-    try {
-        let startDate = new Date('2021-02-21');
-        startDate.setHours(24);
-        startDate.setMinutes(0);
-        startDate.setSeconds(0);
-        startDate.setMilliseconds(0);
+    // try {
+    //     let startDate = new Date('2021-02-21');
+    //     startDate.setHours(24);
+    //     startDate.setMinutes(0);
+    //     startDate.setSeconds(0);
+    //     startDate.setMilliseconds(0);
 
-        console.log(startDate);
+    //     console.log(startDate);
 
-        let endDate = new Date('2021-03-14');
+    //     let endDate = new Date('2021-03-14');
 
-        const finalResults = [];
+    //     const finalResults = [];
         
-        let nextDate = new Date(startDate);
-        nextDate.setDate(startDate.getDate() + 1);
+    //     let nextDate = new Date(startDate);
+    //     nextDate.setDate(startDate.getDate() + 1);
 
-        let results = response.filter(e => {
-            const date = new Date(e["Datum"]);
-            return (date >= startDate && date <= nextDate) && e["Validan"];
-        })
-        .sort((a,b) => {
-            let aDate = new Date(a["Datum"]);
-            let bDate = new Date(b["Datum"]);
-            return aDate.getDate() - bDate.getDate();
-        })
-        .sort((a,b) => {
-            return a["Vreme"] - b["Vreme"];
-        })
-        .slice(0,10)
-        .map(e => {
-            return {
-                ime: e["Ime"],
-                prezime: e["Prezime"],
-                vreme: e["Vreme"],
-                datum: e["Datum"]
-            }
-        });
+    //     let results = response.filter(e => {
+    //         const date = new Date(e["Datum"]);
+    //         return (date >= startDate && date <= nextDate) && e["Validan"];
+    //     })
+    //     .sort((a,b) => {
+    //         let aDate = new Date(a["Datum"]);
+    //         let bDate = new Date(b["Datum"]);
+    //         return aDate.getDate() - bDate.getDate();
+    //     })
+    //     .sort((a,b) => {
+    //         return a["Vreme"] - b["Vreme"];
+    //     })
+    //     .slice(0,10)
+    //     .map(e => {
+    //         return {
+    //             ime: e["Ime"],
+    //             prezime: e["Prezime"],
+    //             vreme: e["Vreme"],
+    //             datum: e["Datum"]
+    //         }
+    //     });
 
-        res.send(results);
-    } catch(e) {
-        res.status(400).send({
-            message: DEFAULT_ERROR_MSG
-        })
-    }
+    //     res.send(results);
+    // } catch(e) {
+    //     res.status(400).send({
+    //         message: DEFAULT_ERROR_MSG
+    //     })
+    // }
+
+    res.status(400).send({
+        message: FINISHED_MSG
+    });
 }
 

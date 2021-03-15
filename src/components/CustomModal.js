@@ -126,7 +126,7 @@ class CustomModal extends React.Component {
 
                     <h1 className="custom-modal-title">Nagradni konkurs je završen!</h1>
                     <div className="custom-modal-info">
-                    Želimo da čestitamo svim dobitnicima koji su zapravo pokazali da imaju najbolju memoriju i brze reflekse
+                    Želimo da čestitamo svim dobitnicima koji su zapravo pokazali da imaju najbolju memoriju i brze reflekse!
                     </div>
                     <br/>
                     <div className="custom-modal-info">

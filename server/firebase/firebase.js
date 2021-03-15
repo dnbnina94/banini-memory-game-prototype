@@ -2,7 +2,7 @@ const firebase = require('firebase');
 const { v4: uuidv4 } = require('uuid');
 const utils = require("../utils.js");
 const validator = require('validator');
-var response = require("../response.json");
+// var response = require("../response.json");
 var final = require("../final.json");
 
 require('dotenv').config({ path: '.env' });

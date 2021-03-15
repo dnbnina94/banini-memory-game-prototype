@@ -69,7 +69,7 @@ class MemoryGame extends React.Component {
         errorMsg: '',
         gameAudioVolume: 0.1,
         modalIsOpen: false,
-        userAgreed: true,
+        userAgreed: false,
         token: null
     }
 
@@ -451,9 +451,7 @@ class MemoryGame extends React.Component {
     render() {
         return (
             <div className="app-wrapper">
-                    {/*
-                        <CustomModal modalIsOpen={this.state.modalIsOpen && !this.state.userAgreed} agreeToTerms={this.agreeToTerms}/>
-                    */}
+                    <CustomModal modalIsOpen={this.state.modalIsOpen && !this.state.userAgreed} agreeToTerms={this.agreeToTerms}/>
                     {
                         this.state.loading &&
                         <Loader />

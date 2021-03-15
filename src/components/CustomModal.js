@@ -1,9 +1,11 @@
 import React from "react";
 import Modal from "react-modal";
 
+import confetti from "../confetti.js";
+
 class CustomModal extends React.Component {
     state = {
-        checked: false
+        checked: true
     }
 
     handleChange = () => {
@@ -20,12 +22,15 @@ class CustomModal extends React.Component {
     }
 
     render() {
+        confetti.start();
         return (
             <Modal
                 isOpen={this.props.modalIsOpen}
                 ariaHideApp={false}
                 contentLabel="Example Modal"
             >
+                {/*
+                    <div>
                     <div className="custom-modal-title">
                         PRAVILNIK NAGRADNOG KONKURSA<br/>
                         „TRIK GAMING AKTIVACIJA“
@@ -116,6 +121,17 @@ class CustomModal extends React.Component {
                         <span className="checkmark-text">Pročitao/la sam uslove korišćenja</span>
                         <span className="checkmark-required">*</span>
                     </label>
+                    </div>
+                */}
+
+                    <h1 className="custom-modal-title">Nagradni konkurs je završen!</h1>
+                    <div className="custom-modal-info">
+                    Želimo da čestitamo svim dobitnicima koji su zapravo pokazali da imaju najbolju memoriju i brze reflekse
+                    </div>
+                    <br/>
+                    <div className="custom-modal-info">
+                    Uskoro ćemo objaviti i finalne zvanične rezultate po danima. Vidimo se u nekoj narednoj igri!
+                    </div>
 
                     <div 
                         className={`game-finished-btn game-finished-btn-red modal-btn ${!this.state.checked ? 'modal-btn-greyed' : ''}`} 

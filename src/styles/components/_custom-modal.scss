@@ -1,4 +1,6 @@
 .ReactModal__Content {
+  position: static !important;
+  max-width: 80vw;
   border: none !important;
   background: url(../images/background.png) !important;
   background-size: cover;
@@ -17,7 +19,10 @@
 
 .ReactModal__Overlay {
   background: rgba(0, 0, 0, 0.4) !important;
-  z-index: 2;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .custom-modal-title {
@@ -139,6 +144,7 @@
     inset: 2vw 25vw !important;
     border-radius: 1vw !important;
     font-size: 1vw;
+    max-width: 40vw;
   }
 
   .custom-modal-info {

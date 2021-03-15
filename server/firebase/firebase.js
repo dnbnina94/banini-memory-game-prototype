@@ -2,7 +2,8 @@ const firebase = require('firebase');
 const { v4: uuidv4 } = require('uuid');
 const utils = require("../utils.js");
 const validator = require('validator');
-// const response = require("../response.json");
+var response = require("../response.json");
+var final = require("../final.json");
 
 require('dotenv').config({ path: '.env' });
 
@@ -42,58 +43,66 @@ function isValidDate(d) {
 
 exports.getData = (req, res) => {
     try {
-        const date = new Date(req.query.date);
+        const date = req.query.date;
 
-        if (!isValidDate(date)) {
-            throw new Error();
-        }
+        const results = final.filter(e => {
+            return e.datum.includes(date);
+        })
 
-        let minDate = new Date(date);
-        minDate.setHours(0);
-        minDate.setMinutes(0);
-        minDate.setSeconds(0);
-        minDate.setMilliseconds(0);
+        res.send(results);
 
-        let maxDate = new Date(date);
-        maxDate.setHours(23);
-        maxDate.setMinutes(59);
-        maxDate.setSeconds(59);
-        maxDate.setMilliseconds(999); 
+        // const date = new Date(req.query.date);
 
-        minDate = firebase.firestore.Timestamp.fromDate(minDate);
-        maxDate = firebase.firestore.Timestamp.fromDate(maxDate);
+        // if (!isValidDate(date)) {
+        //     throw new Error();
+        // }
 
-        database.collection('entries')
-        .orderBy('datum')
-        .where('datum', '>=', minDate)
-        .where('datum', '<=', maxDate)
-        .where('validan', '==', true)
-        .get()
-        .then(snapshot => {
-            const results = [];
+        // let minDate = new Date(date);
+        // minDate.setHours(0);
+        // minDate.setMinutes(0);
+        // minDate.setSeconds(0);
+        // minDate.setMilliseconds(0);
 
-            snapshot.forEach(snapshotChild => {
-                results.push({
-                    ...snapshotChild.data()
-                })
-            });
+        // let maxDate = new Date(date);
+        // maxDate.setHours(23);
+        // maxDate.setMinutes(59);
+        // maxDate.setSeconds(59);
+        // maxDate.setMilliseconds(999); 
 
-            results.sort((a,b) => a.vreme - b.vreme);
+        // minDate = firebase.firestore.Timestamp.fromDate(minDate);
+        // maxDate = firebase.firestore.Timestamp.fromDate(maxDate);
 
-            res.send(results.map(r => {
-                return {
-                    ime: r.ime,
-                    prezime: r.prezime,
-                    vreme: r.vreme
-                }
-            }));
+        // database.collection('entries')
+        // .orderBy('datum')
+        // .where('datum', '>=', minDate)
+        // .where('datum', '<=', maxDate)
+        // .where('validan', '==', true)
+        // .get()
+        // .then(snapshot => {
+        //     const results = [];
 
-        }).catch(err => {
-            console.log(err);
-            res.status(400).send({
-                message: DEFAULT_ERROR_MSG
-            });
-        });
+        //     snapshot.forEach(snapshotChild => {
+        //         results.push({
+        //             ...snapshotChild.data()
+        //         })
+        //     });
+
+        //     results.sort((a,b) => a.vreme - b.vreme);
+
+        //     res.send(results.map(r => {
+        //         return {
+        //             ime: r.ime,
+        //             prezime: r.prezime,
+        //             vreme: r.vreme
+        //         }
+        //     }));
+
+        // }).catch(err => {
+        //     console.log(err);
+        //     res.status(400).send({
+        //         message: DEFAULT_ERROR_MSG
+        //     });
+        // });
     } catch(err) {
         console.log(err);
         res.status(400).send({
@@ -331,112 +340,127 @@ exports.endGame = (req, res) => {
 }
 
 exports.numOfEntries = (req, res) => {
-    // try {
-    //     let minDate = new Date('2021-02-22');
-    //     minDate.setHours(0);
-    //     minDate.setMinutes(0);
-    //     minDate.setSeconds(0);
-    //     minDate.setMilliseconds(0);
+    try {
+        let minDate = new Date('2021-02-22');
+        minDate.setHours(0);
+        minDate.setMinutes(0);
+        minDate.setSeconds(0);
+        minDate.setMilliseconds(0);
 
-    //     minDate = firebase.firestore.Timestamp.fromDate(minDate);
+        minDate = firebase.firestore.Timestamp.fromDate(minDate);
 
-    //     database.collection('entries')
-    //     .orderBy('datum')
-    //     .where('datum', '>=', minDate)
-    //     .get()
-    //     .then(snapshot => {
-    //         const results = [];
+        database.collection('entries')
+        .orderBy('datum')
+        .where('datum', '>=', minDate)
+        .get()
+        .then(snapshot => {
+            const results = [];
 
-    //         snapshot.forEach(snapshotChild => {
-    //             results.push({
-    //                 ...snapshotChild.data()
-    //             })
-    //         });
+            snapshot.forEach(snapshotChild => {
+                results.push({
+                    ...snapshotChild.data()
+                })
+            });
 
-    //         res.send(results.map(data => {
-    //             return {
-    //                 "Datum": data.datum.toDate(),
-    //                 "Ime": data.ime,
-    //                 "Prezime": data.prezime,
-    //                 "Ip Adresa": data.ipaddress,
-    //                 "Email": data.email,
-    //                 "Telefon": data.telefon,
-    //                 "Broj Isečka": data.brisecka,
-    //                 // "Vreme": utils.formatMillisecs(data.vreme),
-    //                 "Vreme": data.vreme,
-    //                 // "Validan": data.validan ? "Da" : "Ne"
-    //                 "Validan": data.validan
-    //             }
-    //         }));
+            res.send(results.map(data => {
+                let date = data.datum.toDate();
+                date.setHours(date.getHours() + 1);
+                return {
+                    "Datum": date,
+                    "Ime": data.ime,
+                    "Prezime": data.prezime,
+                    "Ip Adresa": data.ipaddress,
+                    "Email": data.email,
+                    "Telefon": data.telefon,
+                    "Broj Isečka": data.brisecka,
+                    // "Vreme": utils.formatMillisecs(data.vreme),
+                    "Vreme": data.vreme,
+                    // "Validan": data.validan ? "Da" : "Ne"
+                    "Validan": data.validan
+                }
+            }));
 
-    //         // res.send("BROJ UCESNIKA " + results.length)
+            // res.send("BROJ UCESNIKA " + results.length)
 
-    //     }).catch(err => {
-    //         console.log(err);
-    //         res.status(400).send({
-    //             message: DEFAULT_ERROR_MSG
-    //         });
-    //     });
-    // } catch(err) {
-    //     console.log(err);
-    //     res.status(400).send({
-    //         message: DEFAULT_ERROR_MSG
-    //     })
-    // }
+        }).catch(err => {
+            console.log(err);
+            res.status(400).send({
+                message: DEFAULT_ERROR_MSG
+            });
+        });
+    } catch(err) {
+        console.log(err);
+        res.status(400).send({
+            message: DEFAULT_ERROR_MSG
+        })
+    }
 
-    res.status(400).send({
-        message: FINISHED_MSG
-    });
+    // res.status(400).send({
+    //     message: FINISHED_MSG
+    // });
 }
 
 exports.firstTen = (req,res) => {
-    // try {
-    //     let startDate = new Date('2021-02-21');
-    //     startDate.setHours(24);
-    //     startDate.setMinutes(0);
-    //     startDate.setSeconds(0);
-    //     startDate.setMilliseconds(0);
+    try {
+        let startDate = new Date('2021-02-22');
+        startDate.setHours(1);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        startDate.setMilliseconds(0);
 
-    //     console.log(startDate);
+        console.log(startDate);
 
-    //     let endDate = new Date('2021-03-14');
+        let endDate = new Date('2021-03-14');
 
-    //     const finalResults = [];
-        
-    //     let nextDate = new Date(startDate);
-    //     nextDate.setDate(startDate.getDate() + 1);
+        const finalResults = [];
 
-    //     let results = response.filter(e => {
-    //         const date = new Date(e["Datum"]);
-    //         return (date >= startDate && date <= nextDate) && e["Validan"];
-    //     })
-    //     .sort((a,b) => {
-    //         let aDate = new Date(a["Datum"]);
-    //         let bDate = new Date(b["Datum"]);
-    //         return aDate.getDate() - bDate.getDate();
-    //     })
-    //     .sort((a,b) => {
-    //         return a["Vreme"] - b["Vreme"];
-    //     })
-    //     .slice(0,10)
-    //     .map(e => {
-    //         return {
-    //             ime: e["Ime"],
-    //             prezime: e["Prezime"],
-    //             vreme: e["Vreme"],
-    //             datum: e["Datum"]
-    //         }
-    //     });
+        while (startDate <= endDate) {
+            let nextDate = new Date(startDate);
+            nextDate.setDate(startDate.getDate() + 1);
 
-    //     res.send(results);
-    // } catch(e) {
-    //     res.status(400).send({
-    //         message: DEFAULT_ERROR_MSG
-    //     })
-    // }
+            let results = response.filter(e => {
+                const date = new Date(e["Datum"]);
+                return (date >= startDate && date < nextDate) && e["Validan"];
+            })
+            // .sort((a,b) => {
+            //     let aDate = new Date(a["Datum"]);
+            //     let bDate = new Date(b["Datum"]);
+            //     return bDate.getDate() - aDate.getDate();
+            // })
+            .sort((a,b) => {
+                // return a["Vreme"] - b["Vreme"];
+                let aDate = new Date(a["Datum"]);
+                let bDate = new Date(b["Datum"]);
+                if (a["Vreme"] === b["Vreme"]) {
+                    return aDate - bDate;
+                } else {
+                    return a["Vreme"] - b["Vreme"];
+                }
+            })
+            .slice(0,10)
+            .map(e => {
+                return {
+                    ime: e["Ime"],
+                    prezime: e["Prezime"],
+                    vreme: e["Vreme"],
+                    datum: e["Datum"]
+                }
+            });
 
-    res.status(400).send({
-        message: FINISHED_MSG
-    });
+            finalResults.push(...results);
+
+            startDate = nextDate;
+        }
+
+        res.send(finalResults);
+    } catch(e) {
+        res.status(400).send({
+            message: DEFAULT_ERROR_MSG
+        })
+    }
+
+    // res.status(400).send({
+    //     message: FINISHED_MSG
+    // });
 }
 

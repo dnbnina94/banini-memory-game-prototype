@@ -46,12 +46,12 @@ app.use(session({
 // parse requests of content-type: application/json
 app.use(bodyParser.json());
 
-app.get("/api/num-of-entries", firebase.numOfEntries);
+// app.get("/api/num-of-entries", firebase.numOfEntries);
 app.get("/api/entries", firebase.getData);
-app.post("/api/save-data", firebase.saveData);
-app.get("/api/start-game", firebase.startGame);
-app.post("/api/end-game", firebase.endGame);
-app.get("/api/first-ten", firebase.firstTen);
+// app.post("/api/save-data", firebase.saveData);
+// app.get("/api/start-game", firebase.startGame);
+// app.post("/api/end-game", firebase.endGame);
+// app.get("/api/first-ten", firebase.firstTen);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
